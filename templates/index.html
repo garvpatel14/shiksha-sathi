@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shiksha Sathi – Just-in-Time Teaching Assistant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 30px;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #2d89ef;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        pre {
+            background: #ffffff;
+            padding: 15px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+            border-left: 5px solid #2d89ef;
+        }
+    </style>
+</head>
+<body>
+
+<h2>👩‍🏫 Shiksha Sathi – Just-in-Time Teaching Assistant</h2>
+
+<p><strong>Describe the classroom problem you are facing right now:</strong></p>
+
+<textarea id="problem" placeholder="Eg: Students confused about zero in tens place and advanced students are disruptive"></textarea>
+<br>
+
+<button onclick="getAdvice()">Get Help</button>
+
+<pre id="result"></pre>
+
+<script>
+function getAdvice() {
+    const problemText = document.getElementById("problem").value;
+    document.getElementById("result").innerText = "Thinking...";
+
+    fetch("/get-advice", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ problem: problemText })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("result").innerText = data.advice || data.error;
+    });
+}
+</script>
+
+</body>
+</html>
